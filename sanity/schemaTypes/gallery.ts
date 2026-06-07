@@ -107,6 +107,39 @@ export default defineType({
               title: "Future Shopify Product Handle",
               type: "string",
               description: "Keep empty until Shopify is activated."
+            }),
+            defineField({
+              name: "originalPrintFileUrl",
+              title: "Original Print File Link",
+              type: "url",
+              description: "Private Google Drive link to the full-resolution printable master file. This is not shown on the public website.",
+              validation: (Rule) => Rule.uri({ scheme: ["https"] })
+            }),
+            defineField({
+              name: "printSizes",
+              title: "Available Print Sizes",
+              type: "array",
+              description: "Optional internal list such as 12x18, 16x24, 24x36.",
+              of: [{ type: "string" }]
+            }),
+            defineField({
+              name: "paperType",
+              title: "Paper Type",
+              type: "string",
+              description: "Optional internal note for paper or finish."
+            }),
+            defineField({
+              name: "editionNotes",
+              title: "Edition Notes",
+              type: "string",
+              description: "Optional internal note for edition size, numbering, or open edition."
+            }),
+            defineField({
+              name: "printNotes",
+              title: "Print Production Notes",
+              type: "text",
+              rows: 3,
+              description: "Private notes for fulfillment, cropping, color, printer, or special handling."
             })
           ],
           preview: {
