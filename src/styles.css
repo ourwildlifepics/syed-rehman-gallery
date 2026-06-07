@@ -247,12 +247,12 @@ img {
 
 .piece-standard,
 .piece-square {
-  grid-column: span 2;
+  grid-column: span 3;
   grid-row: span 2;
 }
 
 .piece-landscape {
-  grid-column: span 3;
+  grid-column: span 4;
   grid-row: span 2;
 }
 
@@ -262,7 +262,7 @@ img {
 }
 
 .piece-portrait {
-  grid-column: span 2;
+  grid-column: span 3;
   grid-row: span 3;
 }
 
@@ -378,7 +378,7 @@ img {
   z-index: 50;
   display: grid;
   place-items: center;
-  padding: clamp(18px, 4vw, 54px);
+  padding: clamp(12px, 2.5vw, 34px);
   background: rgba(0, 0, 0, 0.86);
   backdrop-filter: blur(12px);
   cursor: zoom-out;
@@ -386,8 +386,8 @@ img {
 
 .lightbox-frame {
   margin: 0;
-  max-width: min(1180px, 94vw);
-  max-height: 92vh;
+  max-width: min(1440px, 96vw);
+  max-height: 96vh;
   cursor: default;
 }
 
@@ -395,7 +395,7 @@ img {
   width: auto;
   max-width: 100%;
   height: auto;
-  max-height: calc(92vh - 88px);
+  max-height: calc(96vh - 64px);
   object-fit: contain;
   background: #080808;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
@@ -459,6 +459,12 @@ img {
   }
 
   .piece-landscape {
+    grid-column: span 3;
+  }
+
+  .piece-standard,
+  .piece-square,
+  .piece-portrait {
     grid-column: span 2;
   }
 }
