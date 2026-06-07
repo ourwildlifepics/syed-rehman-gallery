@@ -1,6 +1,6 @@
 import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
-import type { SiteContent } from "../types";
+import type { Gallery, SiteContent } from "../types";
 import { fallbackContent } from "../data/fallbackContent";
 
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
@@ -39,17 +39,31 @@ const galleriesQuery = `*[_type == "gallery" && published == true] | order(order
   title,
   description,
   coverImage,
-  "artworks": artworks[]->{
-    "id": slug.current,
-    title,
-    description,
-    location,
-    year,
-    image,
-    "aspectRatio": image.asset->metadata.dimensions.aspectRatio,
-    alt,
-    shopStatus,
-    shopProductHandle
+  "artworks": artworks[]{
+    _type == "reference" => @->{
+      "id": coalesce(slug.current, _id),
+      title,
+      description,
+      location,
+      year,
+      image,
+      "aspectRatio": image.asset->metadata.dimensions.aspectRatio,
+      alt,
+      shopStatus,
+      shopProductHandle
+    },
+    _type != "reference" => {
+      "id": coalesce(slug.current, _key),
+      title,
+      description,
+      location,
+      year,
+      image,
+      "aspectRatio": image.asset->metadata.dimensions.aspectRatio,
+      alt,
+      shopStatus,
+      shopProductHandle
+    }
   }
 }`;
 
@@ -61,15 +75,15 @@ export async function getSiteContent(): Promise<SiteContent> {
     sanityClient.fetch(galleriesQuery)
   ]);
 
-  const sanityGalleries = (galleries || []).map((gallery: any) => ({
+  const sanityGalleries: Gallery[] = (galleries || []).map((gallery: any) => ({
     id: gallery.id,
     title: gallery.title,
     description: gallery.description,
     coverImage: imageUrl(gallery.coverImage, fallbackContent.homeImage),
-    artworks: (gallery.artworks || []).map((artwork: any) => ({
+    artworks: (gallery.artworks || []).filter(Boolean).map((artwork: any) => ({
       id: artwork.id,
       title: artwork.title,
-      description: artwork.description,
+      description: artwork.description || "",
       location: artwork.location,
       year: artwork.year,
       image: imageUrl(artwork.image, fallbackContent.homeImage, 4200),
