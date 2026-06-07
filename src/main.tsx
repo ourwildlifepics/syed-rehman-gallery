@@ -97,7 +97,7 @@ function App() {
                     <button type="button" onClick={() => setSelectedArtwork(artwork)}>
                       View image
                     </button>
-                    <button type="button" onClick={() => setNotice("Coming soon. Thank you for your patience.")}>
+                    <button type="button" onClick={() => setNotice("Coming soon. Thank you for your patience. For inquiries, contact ourwildlifepics@gmail.com.")}>
                       Shop print
                     </button>
                   </div>
