@@ -22,6 +22,7 @@ export default defineType({
       name: "published",
       title: "Published",
       type: "boolean",
+      description: "Turn this on when this gallery should appear in the website menu.",
       initialValue: true
     }),
     defineField({
@@ -40,13 +41,23 @@ export default defineType({
       name: "orderRank",
       title: "Display Order",
       type: "number",
+      description: "Lower numbers appear first in the website menu.",
       initialValue: 10
     }),
     defineField({
       name: "artworks",
-      title: "Artworks",
+      title: "Artwork Images In This Gallery",
       type: "array",
-      of: [{ type: "reference", to: [{ type: "artwork" }] }]
+      description: "Add the artwork documents that should appear inside this specific gallery. You can reuse an artwork in more than one gallery if needed.",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "artwork" }],
+          options: {
+            disableNew: false
+          }
+        }
+      ]
     })
   ],
   preview: {

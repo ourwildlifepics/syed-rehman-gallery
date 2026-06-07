@@ -22,6 +22,7 @@ export default defineType({
       name: "image",
       title: "Image",
       type: "image",
+      description: "Upload the photograph here. To show it on the website, add this artwork to a Gallery document after publishing.",
       options: { hotspot: true },
       validation: (Rule) => Rule.required()
     }),
