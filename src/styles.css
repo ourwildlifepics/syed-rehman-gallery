@@ -248,12 +248,12 @@ img {
 .piece-standard,
 .piece-square {
   grid-column: span 3;
-  grid-row: span 2;
+  grid-row: span 3;
 }
 
 .piece-landscape {
   grid-column: span 4;
-  grid-row: span 2;
+  grid-row: span 3;
 }
 
 .piece-panoramic {
@@ -460,12 +460,14 @@ img {
 
   .piece-landscape {
     grid-column: span 3;
+    grid-row: span 2;
   }
 
   .piece-standard,
   .piece-square,
   .piece-portrait {
     grid-column: span 2;
+    grid-row: span 2;
   }
 }
 
