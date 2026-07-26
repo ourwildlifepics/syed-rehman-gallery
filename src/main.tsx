@@ -39,6 +39,10 @@ function App() {
   }, [content, selectedGalleryId]);
 
   useEffect(() => {
+    setSelectedArtwork(null);
+  }, [selectedGalleryId]);
+
+  useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
   }, [menuOpen]);
 
@@ -82,14 +86,14 @@ function App() {
       </button>
 
       {activeGallery ? (
-        <section className="galleries" aria-label={`${activeGallery.title} gallery`}>
+        <section className="galleries" aria-label={`${activeGallery.title} gallery`} key={activeGallery.id}>
           <div className="gallery-head">
             <h2>{activeGallery.title}</h2>
             <button type="button" onClick={() => setSelectedGalleryId(null)}>Main image</button>
           </div>
           <div className="gallery-grid">
             {activeGallery.artworks.map((artwork) => (
-              <article className={getPieceClass(artwork.aspectRatio)} key={artwork.id}>
+              <article className={getPieceClass(artwork.aspectRatio)} key={`${activeGallery.id}-${artwork.id}-${artwork.image}`}>
                 <img src={artwork.image} alt={artwork.alt} />
                 <div className="piece-overlay">
                   <span className="piece-title">{artwork.title}</span>

@@ -15,6 +15,7 @@ export type Artwork = {
 
 export type Gallery = {
   id: string;
+  slug?: string;
   title: string;
   description?: string;
   coverImage: string;

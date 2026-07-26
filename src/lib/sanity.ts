@@ -35,7 +35,8 @@ const settingsQuery = `*[_type == "siteSettings"][0]{
 }`;
 
 const galleriesQuery = `*[_type == "gallery" && published == true] | order(orderRank asc, title asc) {
-  "id": slug.current,
+  "id": _id,
+  "slug": slug.current,
   title,
   description,
   coverImage,
@@ -71,12 +72,13 @@ export async function getSiteContent(): Promise<SiteContent> {
   if (!hasSanityConfig) return fallbackContent;
 
   const [settings, galleries] = await Promise.all([
-    sanityClient.fetch(settingsQuery),
-    sanityClient.fetch(galleriesQuery)
+    sanityClient.fetch(settingsQuery, {}, { cache: "no-store" }),
+    sanityClient.fetch(galleriesQuery, {}, { cache: "no-store" })
   ]);
 
   const sanityGalleries: Gallery[] = (galleries || []).map((gallery: any) => ({
     id: gallery.id,
+    slug: gallery.slug,
     title: gallery.title,
     description: gallery.description,
     coverImage: imageUrl(gallery.coverImage, fallbackContent.homeImage),
@@ -93,8 +95,8 @@ export async function getSiteContent(): Promise<SiteContent> {
       shopProductHandle: artwork.shopProductHandle
     }))
   }));
-  const sanityGalleryIds = new Set(sanityGalleries.map((gallery) => gallery.id));
-  const localGalleries = fallbackContent.galleries.filter((gallery) => !sanityGalleryIds.has(gallery.id));
+  const sanityGallerySlugs = new Set(sanityGalleries.map((gallery) => gallery.slug || gallery.id));
+  const localGalleries = fallbackContent.galleries.filter((gallery) => !sanityGallerySlugs.has(gallery.id));
 
   return {
     photographerName: settings?.photographerName || fallbackContent.photographerName,
